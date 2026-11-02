@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">郭翔宇2024110511</string>
+    <string name="title_person_info">信息修改</string>
+    <string name="title_card_game">翻牌游戏</string>
+
+    <!-- 主界面：玩家基本信息展示 -->
+    <string name="avatar_desc">头像</string>
+    <string name="camera_desc">拍照更换头像</string>
+    <string name="info_name_format">姓名：%1$s</string>
+    <string name="info_gender_format">性别：%1$s</string>
+    <string name="info_student_id_format">学号：%1$s</string>
+    <string name="info_phone_format">电话：%1$s</string>
+    <string name="info_email_format">邮件地址：%1$s</string>
+    <string name="info_hobby_format">爱好：%1$s</string>
+    <string name="info_high_score_format">游戏最高分：%1$d</string>
+
+    <!-- 默认玩家信息 -->
+    <string name="default_name">郭翔宇</string>
+    <string name="default_gender">男</string>
+    <string name="default_student_id">2024110511</string>
+    <string name="default_phone">13800138000</string>
+    <string name="default_email">2024110511@stu.sicnu.edu.cn</string>
+    <string name="default_hobby">阅读、游戏</string>
+    <string name="hobby_separator">、</string>
+    <string name="hobby_none">无</string>
+
+    <!-- 主界面按钮 -->
+    <string name="btn_edit_info">修改个人信息</string>
+    <string name="btn_play_game">翻牌游戏</string>
+
+    <!-- 信息修改界面 -->
+    <string name="hint_name">姓名</string>
+    <string name="hint_student_id">学号</string>
+    <string name="hint_phone">电话号码</string>
+    <string name="hint_email">电子邮件地址</string>
+    <string name="label_gender">性别：</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+    <string name="label_hobby">爱好：</string>
+    <string name="hobby_travel">旅游</string>
+    <string name="hobby_reading">阅读</string>
+    <string name="hobby_gaming">游戏</string>
+    <string name="hobby_shopping">购物</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_cancel">取消</string>
+
+    <!-- 翻牌游戏界面 -->
+    <string name="score_prefix">得分：</string>
+    <string name="score_format">得分：%1$d</string>
+    <string name="btn_reset">重置游戏</string>
+    <string name="btn_exit">退出</string>
+    <string name="empty_text"></string>
+</resources>
