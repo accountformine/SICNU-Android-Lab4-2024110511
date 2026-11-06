@@ -1,6 +1,12 @@
 package cn.edu.sicnu.guoxiangyu.cardgame.model
 
-class CardMatchingGame(val count: Int) {
+import java.io.Serializable
+
+class CardMatchingGame(val count: Int, val matchCount: Int = 2) : Serializable {
+    companion object {
+        private const val serialVersionUID = 1L
+    }
+
     var score = 0
         private set
 
@@ -49,7 +55,7 @@ class CardMatchingGame(val count: Int) {
                         chosenCards.add(otherCard)
                     }
                 }
-                if (chosenCards.size == 2) {
+                if (chosenCards.size == matchCount - 1) {
                     val matchScore = card.match(chosenCards.toTypedArray())
                     if (matchScore > 0) {
                         score += matchScore * MATCH_BONUS

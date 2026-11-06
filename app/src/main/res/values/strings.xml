@@ -2,9 +2,13 @@
 <resources>
     <string name="app_name">郭翔宇2024110511</string>
     <string name="title_person_info">信息修改</string>
-    <string name="title_card_game">翻牌游戏</string>
 
-    <!-- 主界面：玩家基本信息展示 -->
+    <!-- 底部导航栏 -->
+    <string name="nav_person_info">个人信息</string>
+    <string name="nav_two_card_game">2张牌游戏</string>
+    <string name="nav_three_card_game">3张牌游戏</string>
+
+    <!-- 个人信息Fragment：玩家基本信息展示 -->
     <string name="avatar_desc">头像</string>
     <string name="camera_desc">拍照更换头像</string>
     <string name="info_name_format">姓名：%1$s</string>
@@ -25,9 +29,8 @@
     <string name="hobby_separator">、</string>
     <string name="hobby_none">无</string>
 
-    <!-- 主界面按钮 -->
+    <!-- 按钮 -->
     <string name="btn_edit_info">修改个人信息</string>
-    <string name="btn_play_game">翻牌游戏</string>
 
     <!-- 信息修改界面 -->
     <string name="hint_name">姓名</string>
@@ -45,16 +48,15 @@
     <string name="btn_save">保存</string>
     <string name="btn_cancel">取消</string>
 
-    <!-- 翻牌游戏界面 -->
+    <!-- 翻牌游戏Fragment -->
     <string name="score_prefix">得分：</string>
     <string name="score_format">得分：%1$d</string>
     <string name="btn_reset">重置游戏</string>
-    <string name="btn_exit">退出</string>
     <string name="empty_text"></string>
 
     <!-- 菜单与关于对话框 -->
     <string name="menu_about">关于</string>
     <string name="about_title">关于本应用</string>
-    <string name="about_message">实验五：RecyclerView翻牌游戏应用\n姓名：郭翔宇\n学号：2024110511</string>
+    <string name="about_message">实验六：多Fragment应用\n姓名：郭翔宇\n学号：2024110511</string>
     <string name="btn_ok">确定</string>
 </resources>

@@ -10,14 +10,12 @@ import cn.edu.sicnu.guoxiangyu.cardgame.model.CardMatchingGame
 
 class CardAdapter(val game: CardMatchingGame) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardButton: Button
-        init {
-            cardButton = itemView.findViewById(R.id.button)
-        }
+        val cardButton: Button = itemView.findViewById(R.id.button)
     }
 
-    var mListener: ((Int) -> Unit)? = null
-    fun setOnClickListener(l: (Int) -> Unit) {
+    private var mListener: ((Int) -> Unit)? = null
+
+    fun setOnCardClickListener(l: (Int) -> Unit) {
         mListener = l
     }
 
@@ -41,7 +39,7 @@ class CardAdapter(val game: CardMatchingGame) : RecyclerView.Adapter<CardAdapter
             holder.cardButton.setBackgroundResource(R.drawable.sicnu)
         }
         holder.cardButton.setOnClickListener {
-            mListener?.invoke(position)
+            mListener?.invoke(holder.bindingAdapterPosition)
         }
     }
 }

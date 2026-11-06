@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/game_board_bg"
+        android:background="@color/white"
         android:padding="4dp" />
 
     <LinearLayout
@@ -33,15 +33,7 @@
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
             android:text="@string/btn_reset" />
-
-        <Button
-            android:id="@+id/btnExit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/btn_pink_bg"
-            android:text="@string/btn_exit" />
     </LinearLayout>
 
 </LinearLayout>

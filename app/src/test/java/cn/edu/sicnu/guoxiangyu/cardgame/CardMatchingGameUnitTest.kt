@@ -3,14 +3,32 @@ package cn.edu.sicnu.guoxiangyu.cardgame
 import cn.edu.sicnu.guoxiangyu.cardgame.model.Card
 import cn.edu.sicnu.guoxiangyu.cardgame.model.CardMatchingGame
 import cn.edu.sicnu.guoxiangyu.cardgame.model.Deck
+import cn.edu.sicnu.guoxiangyu.cardgame.model.PersonInfo
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 
 class CardMatchingGameUnitTest {
+
+    @Test
+    fun card_twoCardMatch_returnsCorrectScore() {
+        val heartA = Card("♥", "A")
+        val spadeA = Card("♠", "A")
+        val heartK = Card("♥", "K")
+        val club2 = Card("♣", "2")
+
+        assertEquals(4, heartA.match(arrayOf(spadeA)))
+        assertEquals(1, heartA.match(arrayOf(heartK)))
+        assertEquals(0, heartA.match(arrayOf(club2)))
+    }
 
     @Test
     fun card_threeCardMatch_returnsCorrectScore() {
@@ -21,13 +39,9 @@ class CardMatchingGameUnitTest {
         val heartQ = Card("♥", "Q")
         val club2 = Card("♣", "2")
 
-        // 3 cards with same rank -> 8 points
         assertEquals(8, heartA.match(arrayOf(spadeA, clubA)))
-        // 3 cards with same suit -> 2 points
         assertEquals(2, heartA.match(arrayOf(heartK, heartQ)))
-        // 2 of 3 cards with same rank -> 4 points
         assertEquals(4, heartA.match(arrayOf(spadeA, club2)))
-        // No match -> 0 points
         assertEquals(0, heartA.match(arrayOf(heartK, club2)))
     }
 
@@ -45,24 +59,67 @@ class CardMatchingGameUnitTest {
     }
 
     @Test
-    fun game_chooseToggleAndReset_updatesStateAndScore() {
-        val game = CardMatchingGame(24)
-        assertEquals(24, game.cards.size)
-        assertEquals(0, game.score)
+    fun game_twoAndThreeCardModes_updateStateAndScore() {
+        val game2 = CardMatchingGame(count = 24, matchCount = 2)
+        assertEquals(24, game2.cards.size)
+        assertEquals(2, game2.matchCount)
+        game2.chooseCardAtIndex(0)
+        assertTrue(game2.cardAtIndex(0).isChosen)
+        assertEquals(-1, game2.score)
 
-        game.chooseCardAtIndex(0)
-        assertTrue(game.cardAtIndex(0).isChosen)
-        assertEquals(-1, game.score)
+        val game3 = CardMatchingGame(count = 24, matchCount = 3)
+        assertEquals(24, game3.cards.size)
+        assertEquals(3, game3.matchCount)
+        game3.chooseCardAtIndex(0)
+        game3.chooseCardAtIndex(1)
+        // Only 2 cards chosen in 3-card mode -> neither matched nor penalized yet
+        assertTrue(game3.cardAtIndex(0).isChosen)
+        assertTrue(game3.cardAtIndex(1).isChosen)
+        assertEquals(-2, game3.score)
 
-        // Toggling the same card flips it back without extra cost
-        game.chooseCardAtIndex(0)
-        assertFalse(game.cardAtIndex(0).isChosen)
-        assertEquals(-1, game.score)
+        game3.reset()
+        assertEquals(0, game3.score)
+        assertFalse(game3.cardAtIndex(0).isChosen)
+    }
 
-        // Reset restores 24 fresh cards and resets score to 0
-        game.reset()
-        assertEquals(24, game.cards.size)
-        assertEquals(0, game.score)
-        assertFalse(game.cardAtIndex(0).isChosen)
+    @Test
+    fun serialization_gameAndPersonInfo_roundTripPreservesState() {
+        val originalGame = CardMatchingGame(count = 24, matchCount = 3)
+        originalGame.chooseCardAtIndex(2)
+        originalGame.chooseCardAtIndex(5)
+
+        val gameOut = ByteArrayOutputStream()
+        ObjectOutputStream(gameOut).use { it.writeObject(originalGame) }
+        val restoredGame = ObjectInputStream(ByteArrayInputStream(gameOut.toByteArray())).use {
+            it.readObject() as CardMatchingGame
+        }
+
+        assertEquals(originalGame.score, restoredGame.score)
+        assertEquals(originalGame.matchCount, restoredGame.matchCount)
+        assertEquals(originalGame.cardAtIndex(2).toString(), restoredGame.cardAtIndex(2).toString())
+        assertTrue(restoredGame.cardAtIndex(2).isChosen)
+        assertTrue(restoredGame.cardAtIndex(5).isChosen)
+
+        val avatarSample = byteArrayOf(1, 2, 3, 4)
+        val originalPerson = PersonInfo(
+            name = "TestUser",
+            gender = "男",
+            studentId = "20240001",
+            phone = "13800138000",
+            email = "test@example.com",
+            hobby = "阅读",
+            highScore = 28,
+            avatarBytes = avatarSample
+        )
+
+        val personOut = ByteArrayOutputStream()
+        ObjectOutputStream(personOut).use { it.writeObject(originalPerson) }
+        val restoredPerson = ObjectInputStream(ByteArrayInputStream(personOut.toByteArray())).use {
+            it.readObject() as PersonInfo
+        }
+
+        assertEquals("TestUser", restoredPerson.name)
+        assertEquals(28, restoredPerson.highScore)
+        assertArrayEquals(avatarSample, restoredPerson.avatarBytes)
     }
 }

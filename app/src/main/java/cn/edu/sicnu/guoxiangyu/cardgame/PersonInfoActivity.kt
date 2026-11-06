@@ -2,6 +2,7 @@ package cn.edu.sicnu.guoxiangyu.cardgame
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import java.io.ByteArrayOutputStream
 
 class PersonInfoActivity : AppCompatActivity() {
 
@@ -26,13 +28,15 @@ class PersonInfoActivity : AppCompatActivity() {
     private lateinit var cbGaming: CheckBox
     private lateinit var cbShopping: CheckBox
 
-    private var capturedAvatar: Bitmap? = null
+    private var avatarBytes: ByteArray? = null
 
     private val takePictureLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicturePreview()
     ) { bitmap: Bitmap? ->
         if (bitmap != null) {
-            capturedAvatar = bitmap
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            avatarBytes = stream.toByteArray()
             ivEditAvatar.setImageBitmap(bitmap)
         }
     }
@@ -71,11 +75,13 @@ class PersonInfoActivity : AppCompatActivity() {
         cbGaming.isChecked = hobby.contains(getString(R.string.hobby_gaming))
         cbShopping.isChecked = hobby.contains(getString(R.string.hobby_shopping))
 
-        @Suppress("DEPRECATION")
-        val oldAvatar = intent.getParcelableExtra<Bitmap>(MainActivity.EXTRA_AVATAR)
-        if (oldAvatar != null) {
-            capturedAvatar = oldAvatar
-            ivEditAvatar.setImageBitmap(oldAvatar)
+        val oldAvatarBytes = intent.getByteArrayExtra(MainActivity.EXTRA_AVATAR_BYTES)
+        if (oldAvatarBytes != null && oldAvatarBytes.isNotEmpty()) {
+            avatarBytes = oldAvatarBytes
+            val bmp = BitmapFactory.decodeByteArray(oldAvatarBytes, 0, oldAvatarBytes.size)
+            if (bmp != null) {
+                ivEditAvatar.setImageBitmap(bmp)
+            }
         }
 
         findViewById<ImageButton>(R.id.btnTakePhoto).setOnClickListener {
@@ -107,8 +113,8 @@ class PersonInfoActivity : AppCompatActivity() {
                 putExtra(MainActivity.EXTRA_PHONE, etPhone.text.toString().trim())
                 putExtra(MainActivity.EXTRA_EMAIL, etEmail.text.toString().trim())
                 putExtra(MainActivity.EXTRA_HOBBY, hobbyText)
-                if (capturedAvatar != null) {
-                    putExtra(MainActivity.EXTRA_AVATAR, capturedAvatar)
+                if (avatarBytes != null) {
+                    putExtra(MainActivity.EXTRA_AVATAR_BYTES, avatarBytes)
                 }
             }
             setResult(RESULT_OK, resultIntent)

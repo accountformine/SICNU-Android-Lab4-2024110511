@@ -18,11 +18,14 @@ class CardGameInstrumentedTest {
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun navigateToCardGameAndReset() {
-        onView(withId(R.id.btnPlayGame)).check(matches(isDisplayed())).perform(click())
+    fun switchAcrossThreeFragments() {
+        onView(withId(R.id.tvHighScore)).check(matches(isDisplayed()))
+        onView(withId(R.id.nav_game_two)).perform(click())
         onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
         onView(withId(R.id.reset)).check(matches(isDisplayed())).perform(click())
-        onView(withId(R.id.btnExit)).check(matches(isDisplayed())).perform(click())
-        onView(withId(R.id.tvHighScore)).check(matches(isDisplayed()))
+        onView(withId(R.id.nav_game_three)).perform(click())
+        onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
+        onView(withId(R.id.nav_person)).perform(click())
+        onView(withId(R.id.btnEditInfo)).check(matches(isDisplayed()))
     }
 }
