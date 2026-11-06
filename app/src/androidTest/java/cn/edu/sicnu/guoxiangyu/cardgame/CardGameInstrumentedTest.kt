@@ -20,7 +20,7 @@ class CardGameInstrumentedTest {
     @Test
     fun navigateToCardGameAndReset() {
         onView(withId(R.id.btnPlayGame)).check(matches(isDisplayed())).perform(click())
-        onView(withId(R.id.gridLayout)).check(matches(isDisplayed()))
+        onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
         onView(withId(R.id.reset)).check(matches(isDisplayed())).perform(click())
         onView(withId(R.id.btnExit)).check(matches(isDisplayed())).perform(click())
         onView(withId(R.id.tvHighScore)).check(matches(isDisplayed()))

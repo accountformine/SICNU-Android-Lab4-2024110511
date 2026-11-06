@@ -51,4 +51,10 @@
     <string name="btn_reset">重置游戏</string>
     <string name="btn_exit">退出</string>
     <string name="empty_text"></string>
+
+    <!-- 菜单与关于对话框 -->
+    <string name="menu_about">关于</string>
+    <string name="about_title">关于本应用</string>
+    <string name="about_message">实验五：RecyclerView翻牌游戏应用\n姓名：郭翔宇\n学号：2024110511</string>
+    <string name="btn_ok">确定</string>
 </resources>

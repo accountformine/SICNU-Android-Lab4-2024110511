@@ -3,10 +3,13 @@ package cn.edu.sicnu.guoxiangyu.cardgame
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -116,6 +119,23 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CardGameActivity::class.java)
             cardGameLauncher.launch(intent)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_about) {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.about_title)
+                .setMessage(R.string.about_message)
+                .setPositiveButton(R.string.btn_ok, null)
+                .show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun updateInfoViews() {

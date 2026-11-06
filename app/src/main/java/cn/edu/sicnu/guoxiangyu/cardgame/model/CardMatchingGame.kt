@@ -1,14 +1,26 @@
 package cn.edu.sicnu.guoxiangyu.cardgame.model
 
-class CardMatchingGame(count: Int) {
+class CardMatchingGame(val count: Int) {
     var score = 0
         private set
 
-    private val cards: MutableList<Card>
+    val cards: MutableList<Card>
 
     init {
         val deck = Deck()
         cards = mutableListOf()
+        for (i in 1..count) {
+            val card: Card? = deck.drawRandomCard()
+            if (card != null) {
+                cards.add(card)
+            }
+        }
+    }
+
+    fun reset() {
+        val deck = Deck()
+        score = 0
+        cards.clear()
         for (i in 1..count) {
             val card: Card? = deck.drawRandomCard()
             if (card != null) {
@@ -31,18 +43,21 @@ class CardMatchingGame(count: Int) {
             if (card.isChosen) {
                 card.isChosen = false
             } else {
+                val chosenCards = mutableListOf<Card>()
                 for (otherCard in cards) {
                     if (otherCard.isChosen && !otherCard.isMatched) {
-                        val matchScore = card.match(arrayOf(otherCard))
-                        if (matchScore > 0) {
-                            score += matchScore * MATCH_BONUS
-                            otherCard.isMatched = true
-                            card.isMatched = true
-                        } else {
-                            score -= MISMATCH_PENALTY
-                            otherCard.isChosen = false
-                        }
-                        break
+                        chosenCards.add(otherCard)
+                    }
+                }
+                if (chosenCards.size == 2) {
+                    val matchScore = card.match(chosenCards.toTypedArray())
+                    if (matchScore > 0) {
+                        score += matchScore * MATCH_BONUS
+                        card.isMatched = true
+                        chosenCards.forEach { it.isMatched = true }
+                    } else {
+                        score -= MISMATCH_PENALTY
+                        chosenCards.forEach { it.isChosen = false }
                     }
                 }
                 score -= COST_TO_CHOOSE
